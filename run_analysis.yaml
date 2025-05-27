@@ -1,0 +1,38 @@
+name: Run S&P 500 Analysis
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  etl-and-plot:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Check out repository
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip' 
+        # Installing Python via setup-python ensures consistent runners :contentReference[oaicite:0]{index=0}.
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🚀 Run ETL & Analysis
+        run: |
+          python -c "from etl.loader import etl_main; etl_main()"
+          python app.py --headless
+        # Replace `app.py --headless` with whatever entrypoint you need.
+
+      - name: 📁 Upload outputs
+        uses: actions/upload-artifact@v3
+        with:
+          name: analysis-outputs
+          path: outputs/
