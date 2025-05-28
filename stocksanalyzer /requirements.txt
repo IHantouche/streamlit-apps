@@ -1,6 +1,11 @@
+# Core
 streamlit>=1.25.0
 yfinance>=0.2.29
 pandas>=2.0.0
 numpy>=1.25.0
 plotly>=5.15.0
-openpyxl>=3.1.0
+openpyxl>=3.1.0     # for Excel uploads
+
+# Extras (often helpful for image/HTML exports, caching, etc.)
+Pillow>=9.5.0       # image support
+cachetools>=5.4.0   # streamlit caching backend
